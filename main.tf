@@ -1,15 +1,20 @@
+provider "tfe" {
+  ##Please add your TFE token to TFE_TOKEN enviroment variable. 
+  ##This token need to have permission to read all managed workspaces and write variables
+}
+
 //get a list of TFC/E workspaces that has tag 'aws'
 data "tfe_workspace_ids" "aws-apps" {
   names        = ["*"]
   tag_names    = ["aws"]
-  organization = "yulei"
+  organization = var.organization
 }
 
 //get a list of TFC/E workspaces that has tag 'azure'
 data "tfe_workspace_ids" "azure-apps" {
   names        = ["*"]
   tag_names    = ["azure"]
-  organization = "yulei"
+  organization = var.organization
 }
 
 
