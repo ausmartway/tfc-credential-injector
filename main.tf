@@ -1,6 +1,7 @@
 provider "tfe" {
   ##Please add your TFE token to TFE_TOKEN enviroment variable. 
   ##This token need to have permission to read all managed workspaces and write variables
+  ## By default this provider manages TFC, to manage an TFE enviroment, set TFE_HOSTNAME envirioment variable to the hostname of you TFE.
 }
 
 //get a list of TFC/E workspaces that has tag 'aws'
