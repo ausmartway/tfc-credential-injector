@@ -61,58 +61,61 @@ resource "tfe_variable" "aws_session_token" {
 # }
 
 
-//get a list of TFC/E workspaces that has tag 'azure'
-data "tfe_workspace_ids" "azure-apps" {
-  tag_names    = ["azure"]
-  organization = var.organization
-}
 
-## Add Azure credentials ENV variables 
-resource "tfe_variable" "azure_subscription_id" {
-  for_each     = data.tfe_workspace_ids.azure-apps.ids
-  key          = "ARM_SUBSCRIPTION_ID"
-  value        = ""
-  category     = "env"
-  workspace_id = each.value
-  description  = "Azure Subscription Id"
-  lifecycle {
-    ignore_changes = [value]
-  }
-}
+## Disable Azure auto injection while waiting for Doormat.
 
-resource "tfe_variable" "azure_tenant_id" {
-  for_each     = data.tfe_workspace_ids.azure-apps.ids
-  key          = "ARM_TENANT_ID"
-  value        = ""
-  category     = "env"
-  workspace_id = each.value
-  description  = "Azure Tenant Id"
-  lifecycle {
-    ignore_changes = [value]
-  }
-}
+# //get a list of TFC/E workspaces that has tag 'azure'
+# data "tfe_workspace_ids" "azure-apps" {
+#   tag_names    = ["azure"]
+#   organization = var.organization
+# }
 
-resource "tfe_variable" "azure_client_id" {
-  for_each     = data.tfe_workspace_ids.azure-apps.ids
-  key          = "ARM_CLIENT_ID"
-  value        = ""
-  category     = "env"
-  workspace_id = each.value
-  description  = "Azure Client Id"
-  lifecycle {
-    ignore_changes = [value]
-  }
-}
+# ## Add Azure credentials ENV variables 
+# resource "tfe_variable" "azure_subscription_id" {
+#   for_each     = data.tfe_workspace_ids.azure-apps.ids
+#   key          = "ARM_SUBSCRIPTION_ID"
+#   value        = ""
+#   category     = "env"
+#   workspace_id = each.value
+#   description  = "Azure Subscription Id"
+#   lifecycle {
+#     ignore_changes = [value]
+#   }
+# }
 
-resource "tfe_variable" "azure_client_secret" {
-  for_each     = data.tfe_workspace_ids.azure-apps.ids
-  key          = "ARM_CLIENT_SECRET"
-  value        = ""
-  category     = "env"
-  workspace_id = each.value
-  sensitive = true
-  description  = "Azure Client Secret"
-  lifecycle {
-    ignore_changes = [value]
-  }
-}
+# resource "tfe_variable" "azure_tenant_id" {
+#   for_each     = data.tfe_workspace_ids.azure-apps.ids
+#   key          = "ARM_TENANT_ID"
+#   value        = ""
+#   category     = "env"
+#   workspace_id = each.value
+#   description  = "Azure Tenant Id"
+#   lifecycle {
+#     ignore_changes = [value]
+#   }
+# }
+
+# resource "tfe_variable" "azure_client_id" {
+#   for_each     = data.tfe_workspace_ids.azure-apps.ids
+#   key          = "ARM_CLIENT_ID"
+#   value        = ""
+#   category     = "env"
+#   workspace_id = each.value
+#   description  = "Azure Client Id"
+#   lifecycle {
+#     ignore_changes = [value]
+#   }
+# }
+
+# resource "tfe_variable" "azure_client_secret" {
+#   for_each     = data.tfe_workspace_ids.azure-apps.ids
+#   key          = "ARM_CLIENT_SECRET"
+#   value        = ""
+#   category     = "env"
+#   workspace_id = each.value
+#   sensitive = true
+#   description  = "Azure Client Secret"
+#   lifecycle {
+#     ignore_changes = [value]
+#   }
+# }
