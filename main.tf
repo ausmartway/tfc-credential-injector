@@ -6,14 +6,12 @@ provider "tfe" {
 
 //get a list of TFC/E workspaces that has tag 'aws'
 data "tfe_workspace_ids" "aws-apps" {
-  names        = ["*"]
   tag_names    = ["aws"]
   organization = var.organization
 }
 
 //get a list of TFC/E workspaces that has tag 'azure'
 data "tfe_workspace_ids" "azure-apps" {
-  names        = ["*"]
   tag_names    = ["azure"]
   organization = var.organization
 }
