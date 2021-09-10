@@ -10,13 +10,6 @@ data "tfe_workspace_ids" "aws-apps" {
   organization = var.organization
 }
 
-//get a list of TFC/E workspaces that has tag 'azure'
-data "tfe_workspace_ids" "azure-apps" {
-  tag_names    = ["azure"]
-  organization = var.organization
-}
-
-
 //Add AWS credentials as enviroment variables
 resource "tfe_variable" "aws_access_key_id" {
   for_each     = data.tfe_workspace_ids.aws-apps.ids
@@ -67,6 +60,14 @@ resource "tfe_variable" "aws_session_token" {
 #   description  = "AWS REGION"
 # }
 
+
+//get a list of TFC/E workspaces that has tag 'azure'
+data "tfe_workspace_ids" "azure-apps" {
+  tag_names    = ["azure"]
+  organization = var.organization
+}
+
+## Add Azure credentials ENV variables 
 resource "tfe_variable" "azure_subscription_id" {
   for_each     = data.tfe_workspace_ids.azure-apps.ids
   key          = "ARM_SUBSCRIPTION_ID"
