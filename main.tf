@@ -5,19 +5,13 @@ provider "tfe" {
 }
 
 provider "vault" {
-  
+
 }
 //get a list of TFC/E workspaces that has tag 'aws'
 data "tfe_workspace_ids" "aws-apps" {
   tag_names    = ["aws"]
   organization = var.organization
 }
-
-data "vault_generic_secret" "azure" {
-    path = "kv/azure"
-}
-
-
 
 //Add AWS credentials as enviroment variables
 resource "tfe_variable" "aws_access_key_id" {
@@ -75,6 +69,11 @@ resource "tfe_variable" "aws_session_token" {
 data "tfe_workspace_ids" "azure-apps" {
   tag_names    = ["azure"]
   organization = var.organization
+}
+
+#get azure credential from Vault
+data "vault_generic_secret" "azure" {
+    path = "kv/azure"
 }
 
 ## Add Azure credentials ENV variables 
