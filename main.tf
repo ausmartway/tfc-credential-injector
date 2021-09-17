@@ -126,7 +126,7 @@ resource "tfe_variable" "azure_client_secret" {
 #get Vault credential from Vault
 
 resource "vault_token" "deployment" {
-  role_name = "deployment"
+  display_name = "deployment"
   policies = ["super-user"]
   renewable = false
   ttl = "15d"
