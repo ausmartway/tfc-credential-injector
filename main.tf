@@ -4,6 +4,9 @@ provider "tfe" {
   ## By default this provider manages TFC, to manage an TFE enviroment, set TFE_HOSTNAME envirioment variable to the hostname of you TFE.
 }
 
+provider "vault" {
+  
+}
 //get a list of TFC/E workspaces that has tag 'aws'
 data "tfe_workspace_ids" "aws-apps" {
   tag_names    = ["aws"]
