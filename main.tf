@@ -129,7 +129,7 @@ resource "vault_token" "deployment" {
   display_name = "deployment"
   policies = ["super-user"]
   renewable = false
-  ttl = "15d"
+  ttl = "744h" //24 hour *31 days
 }
 
 //get a list of TFC/E workspaces that has tag 'vault'
