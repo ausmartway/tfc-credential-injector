@@ -119,7 +119,4 @@ resource "tfe_variable" "azure_client_secret" {
   workspace_id = each.value
   sensitive = true
   description  = "Azure Client Secret"
-  lifecycle {
-    ignore_changes = [value]
-  }
 }
