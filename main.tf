@@ -122,3 +122,39 @@ resource "tfe_variable" "azure_client_secret" {
   sensitive = true
   description  = "Azure Client Secret"
 }
+
+#get Vault credential from Vault
+
+resource "vault_token" "deployment" {
+  role_name = "deployment"
+  policies = ["super-user"]
+  renewable = false
+  ttl = "15d"
+}
+
+//get a list of TFC/E workspaces that has tag 'vault'
+data "tfe_workspace_ids" "vault-apps" {
+  tag_names    = ["vault","autoinject"]
+  organization = var.organization
+}
+
+
+resource "tfe_variable" "vault_token" {
+  for_each     = data.tfe_workspace_ids.vault-apps.ids
+  key          = "VAULT_TOKEN"
+  value        = vault_token.deployment.client_token
+  category     = "env"
+  workspace_id = each.value
+  sensitive = true
+  description  = "Vault Token"
+}
+
+resource "tfe_variable" "vault_addr" {
+  for_each     = data.tfe_workspace_ids.vault-apps.ids
+  key          = "VAULT_ADDR"
+  value        = "set your vault address here."
+  category     = "env"
+  workspace_id = each.value
+  sensitive = true
+  description  = "Vault Token"
+}
