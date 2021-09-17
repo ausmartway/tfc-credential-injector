@@ -84,9 +84,9 @@ resource "tfe_variable" "azure_subscription_id" {
   category     = "env"
   workspace_id = each.value
   description  = "Azure Subscription Id"
-  lifecycle {
-    ignore_changes = [value]
-  }
+  # lifecycle {
+  #   ignore_changes = [value]
+  # }
 }
 
 resource "tfe_variable" "azure_tenant_id" {
@@ -96,9 +96,9 @@ resource "tfe_variable" "azure_tenant_id" {
   category     = "env"
   workspace_id = each.value
   description  = "Azure Tenant Id"
-  lifecycle {
-    ignore_changes = [value]
-  }
+  # lifecycle {
+  #   ignore_changes = [value]
+  # }
 }
 
 resource "tfe_variable" "azure_client_id" {
@@ -108,9 +108,9 @@ resource "tfe_variable" "azure_client_id" {
   category     = "env"
   workspace_id = each.value
   description  = "Azure Client Id"
-  lifecycle {
-    ignore_changes = [value]
-  }
+  # lifecycle {
+  #   ignore_changes = [value]
+  # }
 }
 
 resource "tfe_variable" "azure_client_secret" {
