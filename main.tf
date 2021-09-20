@@ -13,11 +13,19 @@ data "tfe_workspace_ids" "aws-apps" {
   organization = var.organization
 }
 
+#get aws credential from Vault
+
+data "vault_aws_access_credentials" "aws" {
+  backend = "aws"
+  role    = "cicdpipeline"
+}
+
+
 //Add AWS credentials as enviroment variables, with no value.
 resource "tfe_variable" "aws_access_key_id" {
   for_each     = data.tfe_workspace_ids.aws-apps.ids
   key          = "AWS_ACCESS_KEY_ID"
-  value        = ""
+  value        = data.vault_aws_access_credentials.aws.aws_access_key
   category     = "env"
   workspace_id = each.value
   description  = "AWS Access Key ID"
@@ -29,7 +37,7 @@ resource "tfe_variable" "aws_access_key_id" {
 resource "tfe_variable" "aws_secret_access_key" {
   for_each     = data.tfe_workspace_ids.aws-apps.ids
   key          = "AWS_SECRET_ACCESS_KEY"
-  value        = "my_value_name"
+  value        = data.vault_aws_access_credentials.aws.secret_key
   sensitive    = true
   category     = "env"
   workspace_id = each.value
@@ -39,18 +47,18 @@ resource "tfe_variable" "aws_secret_access_key" {
   }
 }
 
-resource "tfe_variable" "aws_session_token" {
-  for_each     = data.tfe_workspace_ids.aws-apps.ids
-  key = "AWS_SESSION_TOKEN"
-  sensitive    = true
-  value        = "my_value_name"
-  category     = "env"
-  workspace_id = each.value
-  description  = "AWS Session Token"
-  lifecycle {
-    ignore_changes = [value]
-  }
-}
+# resource "tfe_variable" "aws_session_token" {
+#   for_each     = data.tfe_workspace_ids.aws-apps.ids
+#   key = "AWS_SESSION_TOKEN"
+#   sensitive    = true
+#   value        = "my_value_name"
+#   category     = "env"
+#   workspace_id = each.value
+#   description  = "AWS Session Token"
+#   lifecycle {
+#     ignore_changes = [value]
+#   }
+# }
 
 ##Optional AWS_REGION
 
