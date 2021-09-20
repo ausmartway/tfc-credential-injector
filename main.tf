@@ -18,7 +18,7 @@ data "tfe_workspace_ids" "aws-apps" {
 data "vault_aws_access_credentials" "aws" {
   backend = "aws"
   role    = "cicdpipeline"
-  type    = "sts"
+  # type    = "sts"
   ttl     = 3600 * 24 // one day.
 }
 
