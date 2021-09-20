@@ -49,18 +49,18 @@ resource "tfe_variable" "aws_secret_access_key" {
   }
 }
 
-resource "tfe_variable" "aws_session_token" {
-  for_each     = data.tfe_workspace_ids.aws-apps.ids
-  key = "AWS_SESSION_TOKEN"
-  sensitive    = true
-  value        = "my_value_name"
-  category     = "env"
-  workspace_id = each.value
-  description  = "AWS Session Token"
-  lifecycle {
-    ignore_changes = [value]
-  }
-}
+# resource "tfe_variable" "aws_session_token" {
+#   for_each     = data.tfe_workspace_ids.aws-apps.ids
+#   key = "AWS_SESSION_TOKEN"
+#   sensitive    = true
+#   value        = "my_value_name"
+#   category     = "env"
+#   workspace_id = each.value
+#   description  = "AWS Session Token"
+#   lifecycle {
+#     ignore_changes = [value]
+#   }
+# }
 
 ##Optional AWS_REGION
 
