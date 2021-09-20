@@ -9,11 +9,11 @@ provider "vault" {
 }
 //get a list of TFC/E workspaces that has tag 'aws'
 data "tfe_workspace_ids" "aws-apps" {
-  tag_names    = ["aws"]
+  tag_names    = ["aws","autoinject"]
   organization = var.organization
 }
 
-//Add AWS credentials as enviroment variables
+//Add AWS credentials as enviroment variables, with no value.
 resource "tfe_variable" "aws_access_key_id" {
   for_each     = data.tfe_workspace_ids.aws-apps.ids
   key          = "AWS_ACCESS_KEY_ID"
@@ -65,9 +65,9 @@ resource "tfe_variable" "aws_session_token" {
 
 
 
-//get a list of TFC/E workspaces that has tag 'azure'
+//get a list of TFC/E workspaces that has tag 'azure' and 'autoinjection'
 data "tfe_workspace_ids" "azure-apps" {
-  tag_names    = ["azure"]
+  tag_names    = ["azure","autoinject"]
   organization = var.organization
 }
 
@@ -132,7 +132,7 @@ resource "vault_token" "deployment" {
   ttl = "744h" //24 hour *31 days
 }
 
-//get a list of TFC/E workspaces that has tag 'vault'
+//get a list of TFC/E workspaces that has tag 'vault' and 'autoinjection'
 data "tfe_workspace_ids" "vault-apps" {
   tag_names    = ["vault","autoinject"]
   organization = var.organization
@@ -152,9 +152,9 @@ resource "tfe_variable" "vault_token" {
 resource "tfe_variable" "vault_addr" {
   for_each     = data.tfe_workspace_ids.vault-apps.ids
   key          = "VAULT_ADDR"
-  value        = "set your vault address here."
+  value        = "http://vault.yulei.aws.hashidemos.io"
   category     = "env"
   workspace_id = each.value
-  sensitive = true
-  description  = "Vault Token"
+  sensitive = false
+  description  = "Vault Address"
 }
