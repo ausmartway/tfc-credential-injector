@@ -25,7 +25,7 @@ data "vault_aws_access_credentials" "aws" {
 resource "tfe_variable" "aws_access_key_id" {
   for_each     = data.tfe_workspace_ids.aws-apps.ids
   key          = "AWS_ACCESS_KEY_ID"
-  value        = data.vault_aws_access_credentials.aws.aws_access_key
+  value        = data.vault_aws_access_credentials.aws.access_key
   category     = "env"
   workspace_id = each.value
   description  = "AWS Access Key ID"
