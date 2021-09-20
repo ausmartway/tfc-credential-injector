@@ -13,21 +13,21 @@ data "tfe_workspace_ids" "aws-apps" {
   organization = var.organization
 }
 
-#get aws credential from Vault
+# #get aws credential from Vault
 
-data "vault_aws_access_credentials" "aws" {
-  backend = "aws"
-  role    = "cicdpipeline"
-  # type    = "sts"
-  ttl     = 3600 * 24 // one day.
-}
+# data "vault_aws_access_credentials" "aws" {
+#   backend = "aws"
+#   role    = "cicdpipeline"
+#   # type    = "sts"
+#   ttl     = 3600 * 24 // one day.
+# }
 
 
 //Add AWS credentials as enviroment variables, with no value.
 resource "tfe_variable" "aws_access_key_id" {
   for_each     = data.tfe_workspace_ids.aws-apps.ids
   key          = "AWS_ACCESS_KEY_ID"
-  value        = data.vault_aws_access_credentials.aws.access_key
+  value        = "set your aws_access_key_id here"
   category     = "env"
   workspace_id = each.value
   description  = "AWS Access Key ID"
@@ -39,7 +39,7 @@ resource "tfe_variable" "aws_access_key_id" {
 resource "tfe_variable" "aws_secret_access_key" {
   for_each     = data.tfe_workspace_ids.aws-apps.ids
   key          = "AWS_SECRET_ACCESS_KEY"
-  value        = data.vault_aws_access_credentials.aws.secret_key
+  value        = ""
   sensitive    = true
   category     = "env"
   workspace_id = each.value
@@ -49,18 +49,18 @@ resource "tfe_variable" "aws_secret_access_key" {
   }
 }
 
-# resource "tfe_variable" "aws_session_token" {
-#   for_each     = data.tfe_workspace_ids.aws-apps.ids
-#   key = "AWS_SESSION_TOKEN"
-#   sensitive    = true
-#   value        = "my_value_name"
-#   category     = "env"
-#   workspace_id = each.value
-#   description  = "AWS Session Token"
-#   lifecycle {
-#     ignore_changes = [value]
-#   }
-# }
+resource "tfe_variable" "aws_session_token" {
+  for_each     = data.tfe_workspace_ids.aws-apps.ids
+  key = "AWS_SESSION_TOKEN"
+  sensitive    = true
+  value        = "my_value_name"
+  category     = "env"
+  workspace_id = each.value
+  description  = "AWS Session Token"
+  lifecycle {
+    ignore_changes = [value]
+  }
+}
 
 ##Optional AWS_REGION
 
