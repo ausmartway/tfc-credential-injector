@@ -155,6 +155,6 @@ resource "tfe_variable" "vault_addr" {
   value        = "http://vault.yulei.aws.hashidemos.io"
   category     = "env"
   workspace_id = each.value
-  sensitive = false
+  sensitive = true
   description  = "Vault Address"
 }
