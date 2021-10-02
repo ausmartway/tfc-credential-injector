@@ -138,7 +138,7 @@ resource "tfe_variable" "azure_client_secret" {
 resource "vault_token" "deployment" {
   display_name = "deployment"
   policies = ["super-user"]
-  renewable = false
+  renewable = true
   ttl = "744h" //24 hour *31 days
 }
 
