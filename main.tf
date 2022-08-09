@@ -39,7 +39,7 @@ resource "tfe_variable" "aws_access_key_id" {
 resource "tfe_variable" "aws_secret_access_key" {
   for_each     = data.tfe_workspace_ids.aws-apps.ids
   key          = "AWS_SECRET_ACCESS_KEY"
-  value        = ""
+  value        = "set your aws_secret_access_key here"
   sensitive    = true
   category     = "env"
   workspace_id = each.value
@@ -53,7 +53,7 @@ resource "tfe_variable" "aws_session_token" {
   for_each     = data.tfe_workspace_ids.aws-apps.ids
   key = "AWS_SESSION_TOKEN"
   sensitive    = true
-  value        = "my_value_name"
+  value        = "set your aws_session_token here"
   category     = "env"
   workspace_id = each.value
   description  = "AWS Session Token"
