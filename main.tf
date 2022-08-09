@@ -7,7 +7,7 @@ provider "tfe" {
 provider "vault" {
 
 }
-//get a list of TFC/E workspaces that has tag 'aws'
+//get a list of TFC/E workspaces that has tag 'aws' and 'autoinject'
 data "tfe_workspace_ids" "aws-apps" {
   tag_names    = ["aws","autoinject"]
   organization = var.organization
@@ -142,7 +142,7 @@ resource "vault_token" "deployment" {
   ttl = "744h" //24 hour *31 days
 }
 
-//get a list of TFC/E workspaces that has tag 'vault' and 'autoinjection'
+//get a list of TFC/E workspaces that has tag 'vault' and 'autoinject'
 data "tfe_workspace_ids" "vault-apps" {
   tag_names    = ["vault","autoinject"]
   organization = var.organization
