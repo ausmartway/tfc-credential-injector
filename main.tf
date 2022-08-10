@@ -95,11 +95,11 @@ data "tfe_variable_set" "azure" {
   organization = var.organization
 }
 
-# resource "tfe_workspace_variable_set" "azure" {
-#   for_each = data.tfe_workspace_ids.azure-apps.id
-#   variable_set_id = data.tfe_variable_set.azure.id
-#   workspace_id    = each.value.tfe_workspace.test.id
-# }
+resource "tfe_workspace_variable_set" "azure" {
+  for_each = data.tfe_workspace_ids.azure-apps.ids
+  variable_set_id = data.tfe_variable_set.azure.id
+  workspace_id    = each.value
+}
 
 
 ## Add Azure credentials ENV variables 
