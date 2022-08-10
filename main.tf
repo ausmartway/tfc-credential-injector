@@ -81,57 +81,73 @@ data "tfe_workspace_ids" "azure-apps" {
   organization = var.organization
 }
 
+output "debug" {
+  value = data.tfe_workspace_ids.azure-apps
+}
 #get azure credential from Vault
 data "vault_generic_secret" "azure" {
     path = "kv/azure"
 }
 
+#Attach workspaces with azure and autoinjection tag to Azure variable set.
+data "tfe_variable_set" "azure" {
+  name         = "Global Varset for Azure"
+  organization = var.organization
+}
+
+# resource "tfe_workspace_variable_set" "azure" {
+#   for_each = data.tfe_workspace_ids.azure-apps.id
+#   variable_set_id = data.tfe_variable_set.azure.id
+#   workspace_id    = each.value.tfe_workspace.test.id
+# }
+
+
 ## Add Azure credentials ENV variables 
-resource "tfe_variable" "azure_subscription_id" {
-  for_each     = data.tfe_workspace_ids.azure-apps.ids
-  key          = "ARM_SUBSCRIPTION_ID"
-  value        = data.vault_generic_secret.azure.data["ARM_SUBSCRIPTION_ID"]
-  category     = "env"
-  workspace_id = each.value
-  description  = "Azure Subscription Id"
-  # lifecycle {
-  #   ignore_changes = [value]
-  # }
-}
+# resource "tfe_variable" "azure_subscription_id" {
+#   for_each     = data.tfe_workspace_ids.azure-apps.ids
+#   key          = "ARM_SUBSCRIPTION_ID"
+#   value        = data.vault_generic_secret.azure.data["ARM_SUBSCRIPTION_ID"]
+#   category     = "env"
+#   workspace_id = each.value
+#   description  = "Azure Subscription Id"
+#   # lifecycle {
+#   #   ignore_changes = [value]
+#   # }
+# }
 
-resource "tfe_variable" "azure_tenant_id" {
-  for_each     = data.tfe_workspace_ids.azure-apps.ids
-  key          = "ARM_TENANT_ID"
-  value        = data.vault_generic_secret.azure.data["ARM_TENANT_ID"]
-  category     = "env"
-  workspace_id = each.value
-  description  = "Azure Tenant Id"
-  # lifecycle {
-  #   ignore_changes = [value]
-  # }
-}
+# resource "tfe_variable" "azure_tenant_id" {
+#   for_each     = data.tfe_workspace_ids.azure-apps.ids
+#   key          = "ARM_TENANT_ID"
+#   value        = data.vault_generic_secret.azure.data["ARM_TENANT_ID"]
+#   category     = "env"
+#   workspace_id = each.value
+#   description  = "Azure Tenant Id"
+#   # lifecycle {
+#   #   ignore_changes = [value]
+#   # }
+# }
 
-resource "tfe_variable" "azure_client_id" {
-  for_each     = data.tfe_workspace_ids.azure-apps.ids
-  key          = "ARM_CLIENT_ID"
-  value        = data.vault_generic_secret.azure.data["ARM_CLIENT_ID"]
-  category     = "env"
-  workspace_id = each.value
-  description  = "Azure Client Id"
-  # lifecycle {
-  #   ignore_changes = [value]
-  # }
-}
+# resource "tfe_variable" "azure_client_id" {
+#   for_each     = data.tfe_workspace_ids.azure-apps.ids
+#   key          = "ARM_CLIENT_ID"
+#   value        = data.vault_generic_secret.azure.data["ARM_CLIENT_ID"]
+#   category     = "env"
+#   workspace_id = each.value
+#   description  = "Azure Client Id"
+#   # lifecycle {
+#   #   ignore_changes = [value]
+#   # }
+# }
 
-resource "tfe_variable" "azure_client_secret" {
-  for_each     = data.tfe_workspace_ids.azure-apps.ids
-  key          = "ARM_CLIENT_SECRET"
-  value        = data.vault_generic_secret.azure.data["ARM_CLIENT_SECRET"]
-  category     = "env"
-  workspace_id = each.value
-  sensitive = true
-  description  = "Azure Client Secret"
-}
+# resource "tfe_variable" "azure_client_secret" {
+#   for_each     = data.tfe_workspace_ids.azure-apps.ids
+#   key          = "ARM_CLIENT_SECRET"
+#   value        = data.vault_generic_secret.azure.data["ARM_CLIENT_SECRET"]
+#   category     = "env"
+#   workspace_id = each.value
+#   sensitive = true
+#   description  = "Azure Client Secret"
+# }
 
 #get Vault credential from Vault
 
