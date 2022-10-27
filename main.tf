@@ -71,11 +71,6 @@ data "tfe_workspace_ids" "azure-apps" {
   organization = var.organization
 }
 
-#get azure credential from Vault in path'kv/azure'
-data "vault_generic_secret" "azure" {
-    path = "kv/azure"
-}
-
 #Attach workspaces with azure and autoinject tag to Azure variable set.
 data "tfe_variable_set" "azure" {
   name         = "Global Varset for Azure"
